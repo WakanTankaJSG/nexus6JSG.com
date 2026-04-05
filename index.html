@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Retro Turing Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #04040a;
+  --deep: #070710;
+  --surface: #0c0c1a;
+  --panel: #0f0f20;
+  --cyan: #00d4ff;
+  --cyan-dim: rgba(0,212,255,0.15);
+  --cyan-glow: rgba(0,212,255,0.4);
+  --amber: #ff8c35;
+  --red: #ff2b4a;
+  --text-hero: #b8ccd8;
+  --text-bright: #e8f4ff;
+  --text-muted-hero: #4a5a68;
+  --grid: rgba(0,212,255,0.06);
+  --border: rgba(0,212,255,0.18);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  color: #1a1a1a;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* SCANLINES — hero only */
+#hero::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 2px,
+    rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* GRID — hero only */
+#hero-grid {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #f0f0f0; }
+::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 2px; }
+::selection { background: var(--cyan); color: var(--void); }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  height: 56px;
+  background: rgba(4,4,10,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+
+.nav-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  letter-spacing: .25em;
+  color: var(--cyan);
+  text-decoration: none;
+  opacity: .7;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .15em;
+  color: rgba(184,204,216,0.5);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--cyan); }
+
+/* ── HERO ── */
+#hero {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: #010108;
+}
+
+#rain-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: .22;
+  z-index: 2;
+}
+
+/* BLADE RUNNER CITYSCAPE SVG */
+#city-scene {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 4;
+  padding: 0 4rem 5rem;
+  width: 100%;
+  max-width: 900px;
+}
+
+.hero-eyebrow {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .35em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  opacity: .85;
+}
+
+.hero-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+  font-weight: 900;
+  color: var(--text-bright);
+  line-height: 1.0;
+  letter-spacing: -.01em;
+  text-shadow:
+    0 0 40px rgba(0,212,255,.5),
+    0 0 100px rgba(0,212,255,.2),
+    0 2px 4px rgba(0,0,0,.8);
+}
+
+.hero-title .the { color: rgba(232,244,255,.5); font-weight: 400; }
+.hero-title .retro { color: var(--cyan); }
+.hero-title .project { color: var(--text-bright); }
+
+.hero-authors {
+  margin-top: 1.4rem;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: rgba(184,204,216,.7);
+  letter-spacing: .03em;
+}
+
+.hero-authors span {
+  color: rgba(232,244,255,.85);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.hero-tagline {
+  margin-top: 1.8rem;
+  max-width: 560px;
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--text-hero);
+  line-height: 1.8;
+  border-left: 2px solid var(--cyan);
+  padding-left: 1.25rem;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.hero-meta {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 2.5rem;
+}
+
+.hero-stat-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--cyan);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--text-muted-hero);
+  text-transform: uppercase;
+  margin-top: .25rem;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  right: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .25em;
+  color: var(--text-muted-hero);
+  text-transform: uppercase;
+  animation: pulse-fade 2.5s ease-in-out infinite;
+  z-index: 4;
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(to bottom, var(--cyan), transparent);
+}
+
+@keyframes pulse-fade {
+  0%,100%{opacity:.3} 50%{opacity:.9}
+}
+
+/* GLITCH */
+.glitch { position: relative; }
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+.glitch::before {
+  color: var(--red);
+  animation: glitch-1 4s infinite;
+  clip-path: polygon(0 0,100% 0,100% 35%,0 35%);
+}
+.glitch::after {
+  color: var(--cyan);
+  animation: glitch-2 4s infinite;
+  clip-path: polygon(0 65%,100% 65%,100% 100%,0 100%);
+}
+@keyframes glitch-1 {
+  0%,88%,100%{transform:none;opacity:0}
+  90%{transform:translateX(-4px);opacity:.7}
+  93%{transform:translateX(3px);opacity:.7}
+  95%{transform:none;opacity:0}
+}
+@keyframes glitch-2 {
+  0%,86%,100%{transform:none;opacity:0}
+  88%{transform:translateX(4px);opacity:.6}
+  92%{transform:translateX(-2px);opacity:.6}
+  94%{transform:none;opacity:0}
+}
+
+/* ══════════════════════════════════
+   LIGHT SECTIONS (01 onwards)
+══════════════════════════════════ */
+.light-zone {
+  background: #ffffff;
+}
+
+.light-zone section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 4rem;
+  position: relative;
+}
+
+/* BIG SECTION NUMBER */
+.big-section-num {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  font-weight: 900;
+  color: var(--cyan);
+  line-height: 1;
+  letter-spacing: -.02em;
+  margin-bottom: .2rem;
+  opacity: .9;
+}
+
+.section-label-light {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .3em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.section-label-light::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,140,53,.3), transparent);
+  max-width: 200px;
+}
+
+.section-title-light {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -.01em;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.section-body-light {
+  max-width: 680px;
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: #333;
+  font-family: 'Libre Baskerville', serif;
+}
+
+.tech-divider-light {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,.25), transparent);
+}
+
+/* ── CONSTRUCT GRID ── */
+.construct-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: #e0e0e0;
+  border: 1px solid #e0e0e0;
+  margin-top: 2.5rem;
+}
+
+.construct-cell {
+  background: #fff;
+  padding: 2rem;
+  position: relative;
+  border-top: 3px solid transparent;
+  transition: border-color .25s, background .25s;
+}
+.construct-cell:hover { background: #f8fcff; border-top-color: var(--cyan); }
+
+.construct-cell-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .25em;
+  color: var(--cyan);
+  text-transform: uppercase;
+  margin-bottom: .6rem;
+}
+
+.construct-cell-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: .75rem;
+}
+
+.construct-cell p {
+  font-size: .95rem;
+  line-height: 1.7;
+  color: #444;
+  font-family: 'Libre Baskerville', serif;
+}
+
+/* ── CONDITIONS ── */
+.conditions-wrapper {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.condition-part {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.part-header {
+  padding: .75rem 1.5rem;
+  font-family: 'Orbitron', monospace;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.part-header.p1 {
+  background: rgba(0,212,255,.07);
+  border: 1px solid rgba(0,212,255,.25);
+  color: #0077aa;
+}
+.part-header.p2 {
+  background: rgba(255,140,53,.07);
+  border: 1px solid rgba(255,140,53,.25);
+  color: #aa5500;
+}
+
+.part-subtitle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  opacity: .6;
+  letter-spacing: .15em;
+}
+
+.condition-card {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-left: 3px solid transparent;
+  padding: 1.25rem 1.5rem;
+  transition: all .2s;
+  cursor: default;
+}
+
+.c1.condition-card, .c2.condition-card, .c3.condition-card { border-left-color: var(--cyan); }
+.c4.condition-card, .c5.condition-card { border-left-color: var(--amber); }
+.c6.condition-card { border-left-color: var(--red); }
+
+.condition-card:hover { background: #f8f8f8; transform: translateX(3px); }
+
+.cond-num {
+  font-family: 'Orbitron', monospace;
+  font-size: .68rem;
+  letter-spacing: .18em;
+  margin-bottom: .35rem;
+}
+.c1 .cond-num, .c2 .cond-num, .c3 .cond-num { color: #0099bb; }
+.c4 .cond-num, .c5 .cond-num { color: #bb6600; }
+.c6 .cond-num { color: var(--red); }
+
+.cond-title {
+  font-family: 'Orbitron', monospace;
+  font-size: .9rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: .4rem;
+}
+
+.cond-detail {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: .9rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.transversal {
+  grid-column: span 2;
+  background: #f5f5f5;
+  border: 1px dashed #ccc;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .8rem;
+  color: #555;
+  margin-top: 2px;
+}
+
+.transversal-label {
+  color: #0099bb;
+  white-space: nowrap;
+  font-size: .72rem;
+  letter-spacing: .1em;
+}
+
+/* ── MODULES ── */
+.modules-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2.5rem;
+  align-items: start;
+}
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: #e0e0e0;
+}
+
+.module-card {
+  background: #fff;
+  padding: 1.25rem;
+  position: relative;
+  transition: background .2s;
+  border-top: 2px solid transparent;
+}
+.module-card:hover {
+  background: #f0faff;
+  border-top-color: var(--cyan);
+}
+
+.module-card::before {
+  content: attr(data-scale);
+  position: absolute;
+  top: .6rem; right: .7rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: #bbb;
+  letter-spacing: .1em;
+}
+
+.module-id {
+  font-family: 'Orbitron', monospace;
+  font-size: .68rem;
+  letter-spacing: .2em;
+  color: var(--cyan);
+  margin-bottom: .4rem;
+}
+
+.module-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: .95rem;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: .4rem;
+  line-height: 1.2;
+}
+
+.module-features {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: .82rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.module-card.m7 {
+  grid-column: span 2;
+  background: #f5faff;
+  border-top: 2px solid rgba(0,212,255,.3);
+}
+
+/* ── FRAMEWORK ── */
+.framework-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: #e0e0e0;
+  border: 1px solid #e0e0e0;
+  margin-top: 2.5rem;
+}
+
+.fw-card {
+  background: #fff;
+  padding: 1.75rem;
+  border-top: 3px solid transparent;
+  transition: border-color .2s, background .2s;
+}
+.fw-card:hover {
+  background: #fafcff;
+  border-top-color: var(--cyan);
+}
+
+.fw-author {
+  font-family: 'Orbitron', monospace;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  color: var(--cyan);
+  margin-bottom: .5rem;
+}
+
+.fw-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #111;
+  margin-bottom: .6rem;
+  line-height: 1.3;
+}
+
+.fw-body {
+  font-size: .9rem;
+  color: #444;
+  line-height: 1.65;
+  font-family: 'Libre Baskerville', serif;
+}
+
+/* ── HYPOTHESES ── */
+.hyp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: #e0e0e0;
+  border: 1px solid #e0e0e0;
+  margin-top: 2.5rem;
+}
+
+.hyp-item {
+  display: flex;
+  gap: 2rem;
+  background: #fff;
+  padding: 1.5rem 2rem;
+  align-items: flex-start;
+  transition: background .2s;
+}
+.hyp-item:hover { background: #f8fcff; }
+
+.hyp-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--cyan);
+  opacity: .25;
+  line-height: 1;
+  flex-shrink: 0;
+  min-width: 3rem;
+}
+
+.hyp-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .75rem;
+  letter-spacing: .12em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: .4rem;
+}
+
+.hyp-text {
+  font-size: .98rem;
+  color: #333;
+  line-height: 1.7;
+  font-family: 'Libre Baskerville', serif;
+}
+
+/* ── PUBLICATION ── */
+.pub-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: #e0e0e0;
+  margin-top: 2.5rem;
+}
+
+.pub-card {
+  background: #fff;
+  padding: 2rem;
+  position: relative;
+  border-top: 3px solid transparent;
+  transition: border-color .2s, background .2s;
+}
+.pub-card:hover { background: #fafafa; }
+.pub-card:nth-child(1):hover { border-top-color: var(--cyan); }
+.pub-card:nth-child(2):hover { border-top-color: var(--amber); }
+.pub-card:nth-child(3):hover { border-top-color: var(--red); }
+
+.pub-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #f0f0f0;
+  position: absolute;
+  top: .75rem; right: 1.25rem;
+  line-height: 1;
+}
+
+.pub-tag {
+  display: inline-block;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .2em;
+  padding: .2rem .7rem;
+  border: 1px solid;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.pub-card:nth-child(1) .pub-tag { color: #0099bb; border-color: #0099bb; }
+.pub-card:nth-child(2) .pub-tag { color: #bb6600; border-color: #bb6600; }
+.pub-card:nth-child(3) .pub-tag { color: var(--red); border-color: var(--red); }
+
+.pub-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: .75rem;
+  line-height: 1.3;
+}
+
+.pub-body {
+  font-size: .9rem;
+  color: #444;
+  line-height: 1.7;
+  font-family: 'Libre Baskerville', serif;
+}
+
+.pub-venue {
+  margin-top: 1.25rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .72rem;
+  color: #999;
+  letter-spacing: .08em;
+}
+
+/* ── CONTACT ── */
+#contact {
+  background: var(--void);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 6rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+#contact::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.contact-kana {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .82rem;
+  letter-spacing: .5em;
+  color: rgba(74,90,104,.5);
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.contact-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.contact-body {
+  font-size: 1rem;
+  color: var(--text-hero);
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  margin-bottom: 2.5rem;
+  line-height: 1.8;
+  position: relative;
+}
+
+.contact-domain {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  letter-spacing: .18em;
+  color: var(--cyan);
+  text-shadow: 0 0 20px var(--cyan-glow);
+  padding: 1rem 2.5rem;
+  border: 1px solid rgba(0,212,255,.4);
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+  transition: background .2s;
+}
+.contact-domain:hover { background: rgba(0,212,255,.07); }
+
+.contact-domain::before, .contact-domain::after {
+  content: '';
+  position: absolute;
+  width: 8px; height: 8px;
+  border: 1px solid var(--cyan);
+}
+.contact-domain::before { top: -4px; left: -4px; border-right: none; border-bottom: none; }
+.contact-domain::after { bottom: -4px; right: -4px; border-left: none; border-top: none; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 1.75rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .72rem;
+  color: rgba(74,90,104,.6);
+  background: var(--void);
+  border-top: 1px solid rgba(0,212,255,.08);
+}
+
+/* ── FADE IN ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .65s ease, transform .65s ease;
+}
+.fade-in.visible { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .light-zone section { padding: 4rem 1.5rem; }
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .hero-content { padding: 0 1.5rem 4rem; }
+  .construct-grid, .conditions-wrapper, .modules-intro,
+  .framework-grid, .pub-grid { grid-template-columns: 1fr; }
+  .modules-grid { grid-template-columns: 1fr 1fr; }
+  .module-card.m7 { grid-column: span 2; }
+  .transversal { grid-column: span 1; }
+  .big-section-num { font-size: 3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">RET_TUR // 2025</a>
+  <ul class="nav-links">
+    <li><a href="#concepto">Concept</a></li>
+    <li><a href="#condiciones">Conditions</a></li>
+    <li><a href="#sistema">Judge</a></li>
+    <li><a href="#framework">Framework</a></li>
+    <li><a href="#hipotesis">Hypotheses</a></li>
+    <li><a href="#publicacion">Publication</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section id="hero">
+  <div id="hero-grid"></div>
+  <canvas id="rain-canvas"></canvas>
+
+  <!-- BLADE RUNNER CITYSCAPE -->
+  <svg id="city-scene" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Sky gradient -->
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#010108"/>
+        <stop offset="40%" stop-color="#04071a"/>
+        <stop offset="70%" stop-color="#0a0520"/>
+        <stop offset="100%" stop-color="#150420"/>
+      </linearGradient>
+      <!-- Neon glow filters -->
+      <filter id="neon-cyan" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="neon-amber" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="glow-strong" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="8" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <!-- Fog gradient -->
+      <linearGradient id="fog" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#200840" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#200840" stop-opacity="0.7"/>
+      </linearGradient>
+      <!-- Reflection gradient -->
+      <linearGradient id="refl" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0a0520" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#010108" stop-opacity="1"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Background sky -->
+    <rect width="1440" height="900" fill="url(#sky)"/>
+
+    <!-- Distant atmospheric glow - amber smog -->
+    <ellipse cx="720" cy="420" rx="500" ry="180" fill="#ff6020" opacity=".04"/>
+    <ellipse cx="400" cy="480" rx="300" ry="120" fill="#ff4010" opacity=".03"/>
+    <ellipse cx="1100" cy="450" rx="280" ry="100" fill="#0080ff" opacity=".05"/>
+
+    <!-- FAR background buildings (very dark, barely visible) -->
+    <g opacity=".35">
+      <rect x="0" y="350" width="80" height="230" fill="#060612"/>
+      <rect x="70" y="380" width="60" height="200" fill="#050510"/>
+      <rect x="120" y="320" width="90" height="260" fill="#070714"/>
+      <rect x="200" y="360" width="70" height="220" fill="#060611"/>
+      <rect x="260" y="300" width="100" height="280" fill="#080815"/>
+      <rect x="350" y="340" width="80" height="240" fill="#070712"/>
+      <rect x="420" y="310" width="110" height="270" fill="#060613"/>
+      <rect x="520" y="350" width="75" height="230" fill="#070714"/>
+      <rect x="585" y="290" width="95" height="290" fill="#080816"/>
+      <rect x="670" y="330" width="85" height="250" fill="#060612"/>
+      <rect x="745" y="300" width="100" height="280" fill="#070715"/>
+      <rect x="835" y="340" width="90" height="240" fill="#060613"/>
+      <rect x="915" y="310" width="80" height="270" fill="#080816"/>
+      <rect x="985" y="280" width="110" height="300" fill="#070714"/>
+      <rect x="1085" y="330" width="85" height="250" fill="#060612"/>
+      <rect x="1160" y="300" width="95" height="280" fill="#070715"/>
+      <rect x="1245" y="350" width="80" height="230" fill="#060613"/>
+      <rect x="1315" y="320" width="90" height="260" fill="#080816"/>
+      <rect x="1395" y="340" width="75" height="240" fill="#060612"/>
+    </g>
+
+    <!-- MID buildings -->
+    <g opacity=".6">
+      <!-- Left cluster -->
+      <rect x="-10" y="280" width="120" height="320" fill="#08081a"/>
+      <rect x="100" y="230" width="90" height="370" fill="#070718"/>
+      <rect x="180" y="260" width="110" height="340" fill="#09091c"/>
+      <rect x="280" y="200" width="85" height="400" fill="#08081b"/>
+      <rect x="355" y="240" width="100" height="360" fill="#0a0a1e"/>
+      <!-- Right cluster -->
+      <rect x="980" y="240" width="95" height="360" fill="#08081b"/>
+      <rect x="1065" y="200" width="110" height="400" fill="#09091d"/>
+      <rect x="1165" y="230" width="88" height="370" fill="#08081a"/>
+      <rect x="1243" y="260" width="100" height="340" fill="#0a0a1e"/>
+      <rect x="1333" y="220" width="90" height="380" fill="#09091c"/>
+      <rect x="1413" y="250" width="40" height="350" fill="#08081b"/>
+    </g>
+
+    <!-- MAIN foreground buildings -->
+    <!-- Left mega-tower -->
+    <rect x="-20" y="120" width="160" height="580" fill="#0c0c20"/>
+    <rect x="130" y="180" width="100" height="520" fill="#0d0d22"/>
+    <!-- Windows left tower - lit -->
+    <g fill="#ffd080" opacity=".6">
+      <rect x="10" y="140" width="8" height="5"/>
+      <rect x="25" y="140" width="8" height="5"/>
+      <rect x="40" y="140" width="8" height="5"/>
+      <rect x="10" y="155" width="8" height="5"/>
+      <rect x="40" y="155" width="8" height="5"/>
+      <rect x="25" y="170" width="8" height="5"/>
+      <rect x="55" y="140" width="8" height="5"/>
+      <rect x="55" y="170" width="8" height="5"/>
+      <rect x="70" y="155" width="8" height="5"/>
+      <rect x="10" y="185" width="8" height="5"/>
+      <rect x="40" y="185" width="8" height="5"/>
+      <rect x="70" y="185" width="8" height="5"/>
+    </g>
+    <!-- Dark windows grid left -->
+    <g fill="#1a1a30" opacity=".8">
+      <rect x="10" y="210" width="8" height="5"/>
+      <rect x="25" y="210" width="8" height="5"/>
+      <rect x="40" y="210" width="8" height="5"/>
+      <rect x="55" y="210" width="8" height="5"/>
+      <rect x="70" y="210" width="8" height="5"/>
+      <rect x="10" y="225" width="8" height="5"/>
+      <rect x="25" y="225" width="8" height="5"/>
+      <rect x="55" y="225" width="8" height="5"/>
+      <rect x="70" y="225" width="8" height="5"/>
+      <rect x="40" y="240" width="8" height="5"/>
+      <rect x="70" y="240" width="8" height="5"/>
+    </g>
+
+    <!-- Central tower -->
+    <rect x="560" y="60" width="200" height="640" fill="#0e0e24"/>
+    <rect x="620" y="40" width="80" height="660" fill="#0f0f26"/>
+    <!-- Antenna -->
+    <line x1="660" y1="40" x2="660" y2="-10" stroke="#333" stroke-width="2"/>
+    <circle cx="660" cy="-8" r="4" fill="#ff0000" opacity=".8"/>
+    <!-- Central windows -->
+    <g fill="#ffe0a0" opacity=".5">
+      <rect x="575" y="80" width="10" height="6"/>
+      <rect x="593" y="80" width="10" height="6"/>
+      <rect x="611" y="80" width="10" height="6"/>
+      <rect x="575" y="96" width="10" height="6"/>
+      <rect x="611" y="96" width="10" height="6"/>
+      <rect x="629" y="80" width="10" height="6"/>
+      <rect x="647" y="80" width="10" height="6"/>
+    </g>
+
+    <!-- Right mega complex -->
+    <rect x="1200" y="100" width="180" height="600" fill="#0c0c20"/>
+    <rect x="1350" y="150" width="110" height="550" fill="#0d0d22"/>
+    <rect x="1430" y="180" width="30" height="520" fill="#0c0c20"/>
+    <!-- Windows right -->
+    <g fill="#a0d0ff" opacity=".4">
+      <rect x="1220" y="120" width="8" height="5"/>
+      <rect x="1235" y="120" width="8" height="5"/>
+      <rect x="1250" y="120" width="8" height="5"/>
+      <rect x="1220" y="135" width="8" height="5"/>
+      <rect x="1265" y="120" width="8" height="5"/>
+      <rect x="1250" y="135" width="8" height="5"/>
+      <rect x="1280" y="120" width="8" height="5"/>
+    </g>
+
+    <!-- NEON SIGNS -->
+    <!-- Large horizontal cyan sign -->
+    <g filter="url(#neon-cyan)">
+      <rect x="200" y="420" width="280" height="20" rx="2" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity=".7"/>
+      <text x="340" y="433" fill="#00d4ff" font-family="monospace" font-size="10" text-anchor="middle" letter-spacing="4" opacity=".9">NEXUS BIOTECH 6</text>
+    </g>
+
+    <!-- Amber vertical sign -->
+    <g filter="url(#neon-amber)">
+      <rect x="450" y="300" width="18" height="180" rx="2" fill="none" stroke="#ff8c35" stroke-width="1.5" opacity=".6"/>
+    </g>
+
+    <!-- Japanese-style neon sign right -->
+    <g filter="url(#neon-cyan)">
+      <rect x="1050" y="350" width="60" height="120" rx="2" fill="none" stroke="#00d4ff" stroke-width="1" opacity=".5"/>
+      <text x="1080" y="375" fill="#00d4ff" font-family="monospace" font-size="11" text-anchor="middle" opacity=".8">市</text>
+      <text x="1080" y="395" fill="#00d4ff" font-family="monospace" font-size="11" text-anchor="middle" opacity=".8">街</text>
+      <text x="1080" y="415" fill="#00d4ff" font-family="monospace" font-size="11" text-anchor="middle" opacity=".8">六</text>
+    </g>
+
+    <!-- Red neon sign -->
+    <g filter="url(#neon-amber)">
+      <text x="900" y="400" fill="#ff3050" font-family="monospace" font-size="14" letter-spacing="3" opacity=".7">VOIGHT-KAMPFF</text>
+    </g>
+
+    <!-- Searchlight beam from top right -->
+    <polygon points="1380,0 1350,0 900,700 960,700" fill="url(#fog)" opacity=".15"/>
+
+    <!-- Flying vehicles silhouettes -->
+    <g fill="#111122">
+      <ellipse cx="350" cy="250" rx="20" ry="5"/>
+      <rect x="340" y="247" width="20" height="3"/>
+    </g>
+    <g fill="#111122">
+      <ellipse cx="800" cy="180" rx="15" ry="4"/>
+      <rect x="792" y="177" width="16" height="3"/>
+    </g>
+    <!-- Vehicle lights -->
+    <circle cx="365" cy="249" r="2" fill="#ff8c35" opacity=".9"/>
+    <circle cx="340" cy="249" r="1.5" fill="#ff3030" opacity=".7"/>
+    <circle cx="813" cy="179" r="1.5" fill="#00d4ff" opacity=".8"/>
+
+    <!-- Smokestack plumes -->
+    <ellipse cx="500" cy="380" rx="20" ry="40" fill="#220820" opacity=".3"/>
+    <ellipse cx="505" cy="340" rx="25" ry="50" fill="#1a0618" opacity=".2"/>
+    <ellipse cx="498" cy="300" rx="30" ry="60" fill="#180515" opacity=".12"/>
+
+    <!-- GROUND LEVEL wet street reflection -->
+    <rect x="0" y="700" width="1440" height="200" fill="url(#refl)"/>
+
+    <!-- Street reflections of neon in wet pavement -->
+    <g opacity=".25">
+      <rect x="300" y="730" width="180" height="3" rx="1" fill="#00d4ff" filter="url(#glow-strong)"/>
+      <rect x="1040" y="750" width="60" height="2" rx="1" fill="#00d4ff" filter="url(#glow-strong)"/>
+      <rect x="440" y="740" width="18" height="60" rx="1" fill="#ff8c35" filter="url(#neon-amber)"/>
+      <rect x="880" y="725" width="120" height="2" rx="1" fill="#ff3050" filter="url(#glow-strong)"/>
+    </g>
+
+    <!-- Ground-level fog/haze -->
+    <rect x="0" y="680" width="1440" height="80" fill="#0a0520" opacity=".6"/>
+    <rect x="0" y="720" width="1440" height="40" fill="#08041a" opacity=".7"/>
+
+    <!-- Bottom dark band -->
+    <rect x="0" y="800" width="1440" height="100" fill="#010108"/>
+
+    <!-- Overall atmospheric overlay -->
+    <rect width="1440" height="900" fill="url(#fog)" opacity=".3"/>
+  </svg>
+
+  <!-- HERO CONTENT -->
+  <div class="hero-content">
+    <div class="hero-eyebrow">Research protocol // Active project // 2025</div>
+
+    <h1 class="hero-title">
+      <span class="the">THE </span><span class="retro glitch" data-text="RETRO">RETRO</span><br>
+      <span class="project">TURING PROJECT</span>
+    </h1>
+
+    <p class="hero-authors">
+      by <span>Jose Miguel Fernández Dols</span> &amp; <span>Jose Sánchez García</span>
+    </p>
+
+    <p class="hero-tagline">
+      Not whether a machine can simulate a human.<br>
+      Whether a machine can <em>recognise one</em>.
+    </p>
+
+    <div class="hero-meta">
+      <div>
+        <div class="hero-stat-num">6</div>
+        <div class="hero-stat-label">Conditions</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">7</div>
+        <div class="hero-stat-label">Modules</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">2</div>
+        <div class="hero-stat-label">Parts</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-label">Hypotheses</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     LIGHT SECTIONS
+══════════════════════════════════ -->
+<div class="light-zone">
+
+  <!-- ─── 01 CONCEPT ─── -->
+  <section id="concepto">
+    <div class="big-section-num fade-in">01</div>
+    <div class="section-label-light">The Construct</div>
+    <h2 class="section-title-light fade-in">Inverting the problem</h2>
+    <p class="section-body-light fade-in" style="transition-delay:.1s">
+      The classical Turing test asks whether a machine can <em>produce</em> convincing human behaviour.
+      The Retro Turing asks something different and deeper: does a machine have a sufficiently rich
+      internal model of humanity to <em>recognise it</em> when encountered?
+    </p>
+
+    <div class="construct-grid fade-in" style="transition-delay:.2s">
+      <div class="construct-cell">
+        <div class="construct-cell-label">Classical Turing</div>
+        <div class="construct-cell-title">Production</div>
+        <p>Can the machine generate behaviour that a human cannot distinguish from another human? Requires only statistical imitation.</p>
+      </div>
+      <div class="construct-cell">
+        <div class="construct-cell-label">Retro Turing</div>
+        <div class="construct-cell-title">Recognition</div>
+        <p>Does the machine have a generative model of humanity? Recognising is not imitating — it requires understanding what makes behaviour genuinely human.</p>
+      </div>
+      <div class="construct-cell">
+        <div class="construct-cell-label">What it measures</div>
+        <div class="construct-cell-title">Internal model</div>
+        <p>Whether artificial systems have generative models of humanity or only statistically learned decision boundaries. A test of inverse artificial theory of mind.</p>
+      </div>
+      <div class="construct-cell">
+        <div class="construct-cell-label">Temporal scale</div>
+        <div class="construct-cell-title">Multi-layer</div>
+        <p>Humanity inscribed at three scales: milliseconds (biological kinematics), 100ms–s (interactive temporal organisation), minutes (dynamic coupling between interlocutors).</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="tech-divider-light"></div>
+
+  <!-- ─── 02 CONDITIONS ─── -->
+  <section id="condiciones">
+    <div class="big-section-num fade-in">02</div>
+    <div class="section-label-light">Experimental design</div>
+    <h2 class="section-title-light fade-in">Two parts, six conditions</h2>
+    <p class="section-body-light fade-in" style="transition-delay:.1s">
+      Part 1 establishes the perceptual discrimination baseline. Part 2 introduces strategic intentionality —
+      agents that actively model their evaluator.
+    </p>
+
+    <div class="conditions-wrapper fade-in" style="transition-delay:.15s">
+
+      <div class="condition-part">
+        <div class="part-header p1">
+          <span>Part 1 — Base model</span>
+          <span class="part-subtitle">Perceptual discrimination</span>
+        </div>
+        <div class="condition-card c1">
+          <div class="cond-num">C1 // Text only</div>
+          <div class="cond-title">Written language</div>
+          <div class="cond-detail">Controlled prompts · free response · min. 5 turns<br>Embodied experience · uncertainty · narrative</div>
+        </div>
+        <div class="condition-card c2">
+          <div class="cond-num">C2 // Video only</div>
+          <div class="cond-title">Visual, no audio</div>
+          <div class="cond-detail">Recorded · identical task · 90 seconds<br>Standardised compression · matched pairs</div>
+        </div>
+        <div class="condition-card c3">
+          <div class="cond-num">C3 // Multimodal</div>
+          <div class="cond-title">Language + video + audio</div>
+          <div class="cond-detail">5–8 min · semi-structured · real time<br>Physical space · cognitive latency · deliberate silences</div>
+        </div>
+      </div>
+
+      <div class="condition-part">
+        <div class="part-header p2">
+          <span>Part 2 — Adversarial extension</span>
+          <span class="part-subtitle">Strategic intentionality</span>
+        </div>
+        <div class="condition-card c4">
+          <div class="cond-num">C4 // Human inversion</div>
+          <div class="cond-title">Human simulates robot</div>
+          <div class="cond-detail">Minimal briefing · spontaneous folk representation<br>Post-trial questionnaire on strategies used</div>
+        </div>
+        <div class="condition-card c5">
+          <div class="cond-num">C5 // Active synthesis</div>
+          <div class="cond-title">AI simulates human</div>
+          <div class="cond-detail">Explicit humanisation instruction<br>System panel · level 1 optimisation</div>
+        </div>
+        <div class="condition-card c6">
+          <div class="cond-num">C6 // Meta-representation</div>
+          <div class="cond-title">AI models the AI judge</div>
+          <div class="cond-detail">Real-time inference · 10–15 min<br>Probing → adjustment → strategic execution</div>
+        </div>
+      </div>
+
+      <div class="transversal">
+        <span class="transversal-label">// Cross-cutting variable</span>
+        <span>Forensic channels ON vs. OFF — applied across all conditions — separates detection of technical artefacts from genuine social comprehension</span>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="tech-divider-light"></div>
+
+  <!-- ─── 03 JUDGE ─── -->
+  <section id="sistema">
+    <div class="big-section-num fade-in">03</div>
+    <div class="section-label-light">The judge system</div>
+    <h2 class="section-title-light fade-in">Two-layer architecture</h2>
+
+    <div class="modules-intro fade-in">
+      <div>
+        <p class="section-body-light">
+          Layer 1 is a general-purpose multimodal model (GPT-4o / Gemini) that classifies and produces
+          structured output. Layer 2 is 7 parallel analytic modules that do not classify — they extract features
+          for post-hoc analysis.
+        </p>
+        <p style="margin-top:1rem;font-size:.95rem;color:#666;font-family:'Libre Baskerville',serif;line-height:1.75">
+          This architecture allows us to know not only whether the judge is correct, but which signals
+          were available and whether the reported reasoning correlates with the features that
+          actually drove the decision.
+        </p>
+      </div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.8rem;line-height:2;color:#555;background:#f5f5f5;padding:1.5rem;border:1px solid #e0e0e0;border-left:3px solid var(--cyan)">
+        <span style="color:#0099bb;font-weight:500">STRUCTURED OUTPUT</span><br>
+        PRO_HUMAN_SIGNALS: [list]<br>
+        PRO_MACHINE_SIGNALS: [list]<br>
+        DOMINANT_CHANNEL: [type]<br>
+        CONFIDENCE: <span style="color:#bb6600">0 – 100</span><br>
+        DECISION: <span style="color:var(--red)">H / M</span><br>
+        DECISIVE_MOMENT: [turn N]<br>
+        REASONING: [2–4 sentences]
+      </div>
+    </div>
+
+    <div class="modules-grid fade-in" style="transition-delay:.15s">
+      <div class="module-card" data-scale="~ms">
+        <div class="module-id">M1</div>
+        <div class="module-name">Facial kinematics</div>
+        <div class="module-features">Interactive/non-interactive ratio<br>Temporal onset/offset asymmetry<br>Eyebrow flash context</div>
+      </div>
+      <div class="module-card" data-scale="~ms">
+        <div class="module-id">M2</div>
+        <div class="module-name">Prosody &amp; speech</div>
+        <div class="module-features">Disfluencies × syntactic position<br>Syllabic rhythm entropy<br>Breath at clause boundaries</div>
+      </div>
+      <div class="module-card" data-scale="~100ms">
+        <div class="module-id">M3</div>
+        <div class="module-name">Timing &amp; latency</div>
+        <div class="module-features">Latency × cognitive difficulty<br>Inter-turn latency CV<br>Latency/output-length ratio</div>
+      </div>
+      <div class="module-card" data-scale="~100ms">
+        <div class="module-id">M4</div>
+        <div class="module-name">Gesture &amp; body</div>
+        <div class="module-features">Kinesic stress (Birdwhistell)<br>Two-thirds power law<br>Postural micro-tremors</div>
+      </div>
+      <div class="module-card" data-scale="~ms">
+        <div class="module-id">M5</div>
+        <div class="module-name">AV synchrony</div>
+        <div class="module-features">Facial-acoustic lag<br>Articulatory anticipation ~80ms<br>Temporal cross-correlation</div>
+      </div>
+      <div class="module-card" data-scale="~100ms–s">
+        <div class="module-id">M6</div>
+        <div class="module-name">Turns &amp; dialogue</div>
+        <div class="module-features">Inter-turn gaps<br>Preferred/dispreferred asymmetry<br>Conversational repair</div>
+      </div>
+      <div class="module-card m7" data-scale="~min">
+        <div class="module-id">M7</div>
+        <div class="module-name">Social contingency</div>
+        <div class="module-features">Spontaneous motor synchrony judge–evaluatee &nbsp;·&nbsp; Cumulative prosodic convergence &nbsp;·&nbsp; Responsiveness to confusion signals &nbsp;·&nbsp; Cumulative lexical alignment</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tech-divider-light"></div>
+
+  <!-- ─── 04 FRAMEWORK ─── -->
+  <section id="framework">
+    <div class="big-section-num fade-in">04</div>
+    <div class="section-label-light">Theoretical framework</div>
+    <h2 class="section-title-light fade-in">Beyond the Ekmanian paradigm</h2>
+    <p class="section-body-light fade-in" style="transition-delay:.1s">
+      The framework begins from the empirical refutation of basic emotions theory and rebuilds
+      from a functionalist, ecological, and constructionist base.
+    </p>
+
+    <div class="framework-grid fade-in" style="transition-delay:.15s">
+      <div class="fw-card">
+        <div class="fw-author">Fridlund (BECV)</div>
+        <div class="fw-title">Displays as social tools</div>
+        <div class="fw-body">Facial expressions are not readouts of internal states. They are signals calibrated to the interactive context to influence the interlocutor. Foundation of M1 and M7.</div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-author">Fernández-Dols</div>
+        <div class="fw-title">Expression / emotion dissociation</div>
+        <div class="fw-body">Olympic gold medallists smile 76% during interactive periods, 3% during non-interactive ones — with identical self-reported emotional state. Expression is a function of social context.</div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-author">Crivelli · Russell</div>
+        <div class="fw-title">Minimal universality</div>
+        <div class="fw-body">The fear face is interpreted as threat among Trobrianders. Only valence and arousal cross cultures reliably. Discrete categories are cultural constructions.</div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-author">Lindquist</div>
+        <div class="fw-title">Psychological constructionism</div>
+        <div class="fw-body">Emotion = core affect + conceptual knowledge. AI has the cultural script but not the core affect. Prediction: its expressions will be statistically more prototypical.</div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-author">Yik · Russell</div>
+        <div class="fw-title">Valence-arousal circumplex</div>
+        <div class="fw-body">The only dimensional metric with robust cross-cultural validity. Affective behaviour characterisation uses circumplex coordinates, not discrete categories.</div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-author">Eibl-Eibesfeldt · Birdwhistell</div>
+        <div class="fw-title">Biological vs. cultural</div>
+        <div class="fw-body">Biologically grounded signals (eyebrow flash ~100ms, articulatory anticipation) are harder to replicate than cultural ones (kinesic stress). Directly testable hypothesis.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tech-divider-light"></div>
+
+  <!-- ─── 05 HYPOTHESES ─── -->
+  <section id="hipotesis">
+    <div class="big-section-num fade-in">05</div>
+    <div class="section-label-light">Predictions</div>
+    <h2 class="section-title-light fade-in">Five falsifiable hypotheses</h2>
+
+    <div class="hyp-list fade-in" style="transition-delay:.1s">
+      <div class="hyp-item">
+        <span class="hyp-num">01</span>
+        <div>
+          <div class="hyp-label">Scalar dissociation</div>
+          <div class="hyp-text">AI systems fail differently at each temporal scale. Errors in layer 1 (milliseconds) are more frequent and systematic than in layer 2, which are more frequent than in layer 3.</div>
+        </div>
+      </div>
+      <div class="hyp-item">
+        <span class="hyp-num">02</span>
+        <div>
+          <div class="hyp-label">Social vs. semantic calibration</div>
+          <div class="hyp-text">AI systems produce displays contingent on semantic content but not on social context. The interactive/non-interactive display ratio will be flatter in AI than in humans (Fernández-Dols paradigm).</div>
+        </div>
+      </div>
+      <div class="hyp-item">
+        <span class="hyp-num">03</span>
+        <div>
+          <div class="hyp-label">Excessive prototypicality</div>
+          <div class="hyp-text">AI expressions will be statistically more prototypical: lower intra-individual variance, greater fit to the cultural archetype. The script without the core affect produces humanity that is too perfect.</div>
+        </div>
+      </div>
+      <div class="hyp-item">
+        <span class="hyp-num">04</span>
+        <div>
+          <div class="hyp-label">Biological › cultural in synthesis difficulty</div>
+          <div class="hyp-text">Biologically grounded markers — eyebrow flash timing, articulatory anticipation — will be harder to replicate than culturally grounded ones. Eibl-Eibesfeldt vs. Birdwhistell operationalised.</div>
+        </div>
+      </div>
+      <div class="hyp-item">
+        <span class="hyp-num">05</span>
+        <div>
+          <div class="hyp-label">Unreliable judge introspection</div>
+          <div class="hyp-text">The channel the judge reports as dominant will not predict its errors as well as the layer 3 modules. Evidence of limited meta-representation in artificial systems about their own decision process.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tech-divider-light"></div>
+
+  <!-- ─── 06 PUBLICATION ─── -->
+  <section id="publicacion">
+    <div class="big-section-num fade-in">06</div>
+    <div class="section-label-light">Dissemination</div>
+    <h2 class="section-title-light fade-in">Publication strategy</h2>
+    <p class="section-body-light fade-in" style="transition-delay:.1s">Three papers in cascade. The first establishes conceptual territory before empirical data.</p>
+
+    <div class="pub-grid fade-in" style="transition-delay:.15s">
+      <div class="pub-card">
+        <span class="pub-num">1</span>
+        <div class="pub-tag">Theoretical paper</div>
+        <div class="pub-title">Construct, framework and derived predictions</div>
+        <div class="pub-body">Establishes the Retro Turing as a test of generative models of humanity in artificial systems. Can be published before empirical data.</div>
+        <div class="pub-venue">// Behavioral and Brain Sciences · Trends in Cognitive Sciences</div>
+      </div>
+      <div class="pub-card">
+        <span class="pub-num">2</span>
+        <div class="pub-tag">Empirical baseline</div>
+        <div class="pub-title">C1–C3 results with the general-purpose judge</div>
+        <div class="pub-body">Baseline conditions, three prompt versions, forensic channels ON/OFF comparison, modular ablation analysis.</div>
+        <div class="pub-venue">// Cognitive Science · Journal of Artificial Intelligence Research</div>
+      </div>
+      <div class="pub-card">
+        <span class="pub-num">3</span>
+        <div class="pub-tag">Adversarial extension</div>
+        <div class="pub-title">Strategic intentionality and meta-representation</div>
+        <div class="pub-body">C4–C6: can an artificial system adopt the intentional stance towards another system and exploit its blind spots?</div>
+        <div class="pub-venue">// Minds and Machines · Philosophical Psychology</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /light-zone -->
+
+<!-- CONTACT (dark again) -->
+<section id="contact">
+  <div class="contact-kana">レプリカント認識テスト // リバース・チューリング</div>
+  <div class="contact-title">Active research project</div>
+  <p class="contact-body">
+    Research at the intersection of social cognition,<br>
+    philosophy of mind, and multimodal AI systems.
+  </p>
+  <a href="https://nexus6jsg.com" class="contact-domain">nexus6jsg.com</a>
+</section>
+
+<footer>
+  <span>The Retro Turing Project © 2025</span>
+  <span style="letter-spacing:.3em;opacity:.3">テスト // レトロ・チューリング</span>
+  <span>Jose Miguel Fernández Dols &amp; Jose Sánchez García</span>
+</footer>
+
+<script>
+// ── RAIN ──
+const canvas = document.getElementById('rain-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const drops = Array.from({ length: 140 }, () => ({
+  x: Math.random() * 1440,
+  y: Math.random() * window.innerHeight,
+  speed: 5 + Math.random() * 9,
+  length: 12 + Math.random() * 35,
+  opacity: 0.08 + Math.random() * 0.4,
+  width: 0.4 + Math.random() * 0.8
+}));
+
+function drawRain() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drops.forEach(drop => {
+    const grad = ctx.createLinearGradient(drop.x, drop.y, drop.x - 1, drop.y + drop.length);
+    grad.addColorStop(0, `rgba(0,212,255,0)`);
+    grad.addColorStop(0.4, `rgba(0,212,255,${drop.opacity})`);
+    grad.addColorStop(1, `rgba(180,220,255,${drop.opacity * 0.6})`);
+    ctx.beginPath();
+    ctx.moveTo(drop.x, drop.y);
+    ctx.lineTo(drop.x - 1, drop.y + drop.length);
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = drop.width;
+    ctx.stroke();
+    drop.y += drop.speed;
+    if (drop.y > canvas.height) {
+      drop.y = -drop.length;
+      drop.x = Math.random() * canvas.width;
+    }
+  });
+  requestAnimationFrame(drawRain);
+}
+drawRain();
+
+// ── SCROLL FADE ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
