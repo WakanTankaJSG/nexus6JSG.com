@@ -832,6 +832,296 @@ footer {
   .transversal { grid-column: span 1; }
   .big-section-num { font-size: 3rem; }
 }
+
+/* ── PRIOR APPROACHES (lineage) ── */
+.lineage-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: #e0e0e0;
+  border: 1px solid #e0e0e0;
+  margin-top: 2.5rem;
+}
+.lineage-card {
+  background: #fff;
+  padding: 1.75rem;
+  border-top: 3px solid transparent;
+  transition: border-color .2s, background .2s;
+  position: relative;
+}
+.lineage-card:hover {
+  background: #fafcff;
+  border-top-color: var(--amber);
+}
+.lineage-num {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #f0e0d0;
+  line-height: 1;
+}
+.lineage-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .72rem;
+  letter-spacing: .15em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.lineage-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: .6rem;
+  line-height: 1.3;
+}
+.lineage-body {
+  font-size: .9rem;
+  color: #444;
+  line-height: 1.65;
+  font-family: 'Libre Baskerville', serif;
+}
+.lineage-meta {
+  margin-top: .75rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .72rem;
+  color: #888;
+  letter-spacing: .08em;
+}
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 2rem auto;
+  max-width: 900px;
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+}
+.pull-quote-mark {
+  font-family: 'Orbitron', monospace;
+  font-size: 5rem;
+  color: var(--cyan);
+  opacity: .15;
+  line-height: 1;
+  margin-bottom: -1rem;
+}
+.pull-quote-text {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(1.3rem, 2.8vw, 2rem);
+  font-style: italic;
+  color: #111;
+  line-height: 1.4;
+  letter-spacing: -.005em;
+}
+.pull-quote-text em {
+  color: var(--cyan);
+  font-style: italic;
+  background: linear-gradient(180deg, transparent 65%, rgba(0,212,255,.18) 65%);
+  padding: 0 .15em;
+}
+.pull-quote-attr {
+  margin-top: 1.5rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .8rem;
+  letter-spacing: .15em;
+  color: #888;
+  text-transform: uppercase;
+}
+.pull-quote-line {
+  width: 60px;
+  height: 1px;
+  background: var(--cyan);
+  margin: 1rem auto 0;
+}
+
+/* ── ROBOTICS ── */
+.robotics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.robotics-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-left: 3px solid var(--cyan);
+  padding: 1.75rem;
+  transition: background .2s;
+}
+.robotics-card:hover { background: #f8fcff; }
+.robotics-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .72rem;
+  letter-spacing: .18em;
+  color: var(--cyan);
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.robotics-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: .8rem;
+  line-height: 1.3;
+}
+.robotics-body {
+  font-size: .95rem;
+  color: #444;
+  line-height: 1.7;
+  font-family: 'Libre Baskerville', serif;
+  margin-bottom: .8rem;
+}
+.robotics-meta {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .72rem;
+  color: #888;
+  letter-spacing: .08em;
+}
+
+/* ── WEEKLY REPORTS ── */
+.weekly-wrap {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+}
+@media (max-width: 768px) {
+  .weekly-wrap { grid-template-columns: 1fr; }
+}
+.weekly-side {
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  padding: 1.5rem;
+}
+.weekly-side-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .75rem;
+  letter-spacing: .2em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding-bottom: .6rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+.weekly-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.weekly-list li {
+  padding: .55rem 0;
+  border-bottom: 1px dashed #e8e8e8;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .8rem;
+  color: #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.weekly-list li:last-child { border-bottom: none; }
+.weekly-list .badge {
+  font-size: .65rem;
+  padding: .15rem .5rem;
+  background: var(--cyan);
+  color: #002030;
+  border-radius: 2px;
+  letter-spacing: .1em;
+  font-weight: 700;
+}
+.weekly-main {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-top: 3px solid var(--cyan);
+  padding: 2rem;
+}
+.weekly-date {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .75rem;
+  letter-spacing: .2em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.weekly-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 1.25rem;
+}
+.weekly-body {
+  font-family: 'Libre Baskerville', serif;
+  font-size: .95rem;
+  color: #333;
+  line-height: 1.8;
+}
+.weekly-body p { margin: 0 0 1rem; }
+.weekly-body strong { color: #111; }
+.weekly-subscribe {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f0faff;
+  border-left: 3px solid var(--cyan);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: .9rem;
+  color: #444;
+}
+.weekly-subscribe a {
+  color: #0099bb;
+  text-decoration: none;
+  font-weight: 600;
+}
+.weekly-subscribe a:hover { text-decoration: underline; }
+
+/* ── REFERENCES ── */
+.refs-list {
+  margin-top: 2rem;
+  font-family: 'Libre Baskerville', serif;
+}
+.refs-block {
+  margin-bottom: 2.25rem;
+}
+.refs-block-title {
+  font-family: 'Orbitron', monospace;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+.ref-item {
+  font-size: .88rem;
+  line-height: 1.65;
+  color: #333;
+  padding: .6rem 0;
+  border-bottom: 1px dashed #eee;
+  text-indent: -1.5rem;
+  padding-left: 1.5rem;
+}
+.ref-item:last-child { border-bottom: none; }
+.ref-item a {
+  color: #0099bb;
+  text-decoration: none;
+  word-break: break-word;
+}
+.ref-item a:hover { text-decoration: underline; }
+.ref-item .ref-year {
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--amber);
+  font-size: .82rem;
+  margin-right: .4rem;
+  font-weight: 600;
+}
+
 </style>
 </head>
 <body>
@@ -841,12 +1131,15 @@ footer {
   <a class="nav-logo" href="#">RET_TUR // 2025</a>
   <ul class="nav-links">
     <li><a href="#concepto">Concept</a></li>
-    <li><a href="#condiciones">Conditions</a></li>
+    <li><a href="#condiciones">Design</a></li>
     <li><a href="#sistema">Judge</a></li>
     <li><a href="#framework">Framework</a></li>
+    <li><a href="#prior">Lineage</a></li>
     <li><a href="#hipotesis">Hypotheses</a></li>
+    <li><a href="#robotics">Robotics</a></li>
+    <li><a href="#weekly">Weekly</a></li>
     <li><a href="#publicacion">Publication</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
 
@@ -1087,7 +1380,7 @@ footer {
 
   <div class="tech-divider-light"></div>
 
-  <!-- ─── 04 FRAMEWORK ─── -->
+  <!-- ─── 04 THEORETICAL FRAMEWORK ─── -->
   <section id="framework">
     <div class="big-section-num fade-in">04</div>
     <div class="section-label-light">Theoretical framework</div>
@@ -1104,12 +1397,12 @@ footer {
         <div class="fw-body">Facial expressions are not readouts of internal states. They are signals calibrated to the interactive context to influence the interlocutor. Foundation of M1 and M7.</div>
       </div>
       <div class="fw-card">
-        <div class="fw-author">Fernández-Dols</div>
+        <div class="fw-author">Fern&aacute;ndez-Dols</div>
         <div class="fw-title">Expression / emotion dissociation</div>
-        <div class="fw-body">Olympic gold medallists smile 76% during interactive periods, 3% during non-interactive ones — with identical self-reported emotional state. Expression is a function of social context.</div>
+        <div class="fw-body">Olympic gold medallists smile 76% during interactive periods, 3% during non-interactive ones &mdash; with identical self-reported emotional state. Expression is a function of social context.</div>
       </div>
       <div class="fw-card">
-        <div class="fw-author">Crivelli · Russell</div>
+        <div class="fw-author">Crivelli &middot; Russell</div>
         <div class="fw-title">Minimal universality</div>
         <div class="fw-body">The fear face is interpreted as threat among Trobrianders. Only valence and arousal cross cultures reliably. Discrete categories are cultural constructions.</div>
       </div>
@@ -1119,12 +1412,12 @@ footer {
         <div class="fw-body">Emotion = core affect + conceptual knowledge. AI has the cultural script but not the core affect. Prediction: its expressions will be statistically more prototypical.</div>
       </div>
       <div class="fw-card">
-        <div class="fw-author">Yik · Russell</div>
+        <div class="fw-author">Yik &middot; Russell</div>
         <div class="fw-title">Valence-arousal circumplex</div>
         <div class="fw-body">The only dimensional metric with robust cross-cultural validity. Affective behaviour characterisation uses circumplex coordinates, not discrete categories.</div>
       </div>
       <div class="fw-card">
-        <div class="fw-author">Eibl-Eibesfeldt · Birdwhistell</div>
+        <div class="fw-author">Eibl-Eibesfeldt &middot; Birdwhistell</div>
         <div class="fw-title">Biological vs. cultural</div>
         <div class="fw-body">Biologically grounded signals (eyebrow flash ~100ms, articulatory anticipation) are harder to replicate than cultural ones (kinesic stress). Directly testable hypothesis.</div>
       </div>
@@ -1133,9 +1426,66 @@ footer {
 
   <div class="tech-divider-light"></div>
 
-  <!-- ─── 05 HYPOTHESES ─── -->
-  <section id="hipotesis">
+  <!-- ─── 05 PRIOR APPROACHES (LINEAGE) ─── -->
+  <section id="prior">
     <div class="big-section-num fade-in">05</div>
+    <div class="section-label-light">Lineage &middot; Prior approaches</div>
+    <h2 class="section-title-light fade-in">The Reverse Turing family</h2>
+    <p class="section-body-light fade-in" style="transition-delay:.1s">
+      The Retro Turing Project does not stand alone. It belongs to a wider family of inverted
+      Turing tests that have emerged since the 1990s. We position our proposal as a fifth
+      variant, distinct in that it tests <em>recognition</em> rather than detection,
+      <em>production</em>, or <em>imitation</em>.
+    </p>
+
+    <div class="lineage-grid fade-in" style="transition-delay:.15s">
+      <div class="lineage-card">
+        <span class="lineage-num">01</span>
+        <div class="lineage-tag">Variant 01</div>
+        <div class="lineage-title">CAPTCHA &mdash; the machine evaluates the human</div>
+        <div class="lineage-body">The machine administers the test; the human must prove being human. Massively deployed since the 1990s as distorted text, image grids, behavioural biometrics. Today generative AI solves visual CAPTCHAs more accurately than humans, eroding the boundary that motivated the test.</div>
+        <div class="lineage-meta">// von Ahn et al. 2003 &middot; Cloudflare 2024</div>
+      </div>
+
+      <div class="lineage-card">
+        <span class="lineage-num">02</span>
+        <div class="lineage-tag">Variant 02</div>
+        <div class="lineage-title">Sejnowski &mdash; the LLM as cognitive mirror</div>
+        <div class="lineage-body">"The smarter you are and the more thoughtful your questions, the smarter the LLM appears." Sejnowski (Salk Institute) reframes the LLM as a mirror that amplifies and returns the structure of the interrogator&rsquo;s thought. Raises a metacognitive question: how much of perceived AI intelligence is the user&rsquo;s own projection?</div>
+        <div class="lineage-meta">// Sejnowski, Neural Computation 2023</div>
+      </div>
+
+      <div class="lineage-card">
+        <span class="lineage-num">03</span>
+        <div class="lineage-tag">Variant 03</div>
+        <div class="lineage-title">Human imitates machine &mdash; the VIVE experiment</div>
+        <div class="lineage-body">A human infiltrated among GPT-4T, Claude 3 Opus, Llama 3 and Gemini Pro was detected by the models themselves: the human lacked encyclopaedic depth and appeared "defective" against AI fluency. Danaher&rsquo;s "paradoxical humanisation": as AI becomes indistinguishable from us, authentic humanity begins to look broken.</div>
+        <div class="lineage-meta">// VIVE Blog 2024 &middot; Danaher 2016</div>
+      </div>
+
+      <div class="lineage-card">
+        <span class="lineage-num">04</span>
+        <div class="lineage-tag">Variant 04</div>
+        <div class="lineage-title">Affective Turing Test</div>
+        <div class="lineage-body">Extension of the classical test to the affective domain across five parameters: training control, cultural variability, dialogic affect expression, emotion-reason-action causality, and the hardwired-vs-constructed status of emotions. Operationalises emotional indistinguishability as criterion.</div>
+        <div class="lineage-meta">// AI &amp; Society 2023 &middot; PhilArchive 2022</div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;padding:1.25rem 1.5rem;background:#f5f5f5;border-left:3px solid var(--amber);font-family:'Libre Baskerville',serif;font-size:.95rem;color:#333;line-height:1.7" class="fade-in">
+      <strong style="font-family:'Rajdhani',sans-serif;font-weight:600;color:#bb6600">Our position &mdash;</strong>
+      The Retro Turing Project proposes a <strong>fifth variant</strong>: not whether the machine
+      can be fooled, mirror the user, or be imitated by a human, but whether the machine has a
+      sufficiently rich internal model of humanity to <em>recognise it</em>. This shifts the
+      object of study from imitation to comprehension.
+    </div>
+  </section>
+
+  <div class="tech-divider-light"></div>
+
+  <!-- ─── 06 HYPOTHESES ─── -->
+  <section id="hipotesis">
+    <div class="big-section-num fade-in">06</div>
     <div class="section-label-light">Predictions</div>
     <h2 class="section-title-light fade-in">Five falsifiable hypotheses</h2>
 
@@ -1151,7 +1501,7 @@ footer {
         <span class="hyp-num">02</span>
         <div>
           <div class="hyp-label">Social vs. semantic calibration</div>
-          <div class="hyp-text">AI systems produce displays contingent on semantic content but not on social context. The interactive/non-interactive display ratio will be flatter in AI than in humans (Fernández-Dols paradigm).</div>
+          <div class="hyp-text">AI systems produce displays contingent on semantic content but not on social context. The interactive/non-interactive display ratio will be flatter in AI than in humans (Fern&aacute;ndez-Dols paradigm).</div>
         </div>
       </div>
       <div class="hyp-item">
@@ -1164,8 +1514,8 @@ footer {
       <div class="hyp-item">
         <span class="hyp-num">04</span>
         <div>
-          <div class="hyp-label">Biological › cultural in synthesis difficulty</div>
-          <div class="hyp-text">Biologically grounded markers — eyebrow flash timing, articulatory anticipation — will be harder to replicate than culturally grounded ones. Eibl-Eibesfeldt vs. Birdwhistell operationalised.</div>
+          <div class="hyp-label">Biological &rsaquo; cultural in synthesis difficulty</div>
+          <div class="hyp-text">Biologically grounded markers &mdash; eyebrow flash timing, articulatory anticipation &mdash; will be harder to replicate than culturally grounded ones. Eibl-Eibesfeldt vs. Birdwhistell operationalised.</div>
         </div>
       </div>
       <div class="hyp-item">
@@ -1176,13 +1526,145 @@ footer {
         </div>
       </div>
     </div>
+
+    <!-- PULL QUOTE -->
+    <div class="pull-quote fade-in" style="transition-delay:.2s">
+      <div class="pull-quote-mark">&ldquo;</div>
+      <div class="pull-quote-text">
+        The signal of humanity is not intelligence<br>
+        but <em>predictable imperfection</em>.
+      </div>
+      <div class="pull-quote-line"></div>
+      <div class="pull-quote-attr">working thesis &middot; the retro turing project</div>
+    </div>
   </section>
 
   <div class="tech-divider-light"></div>
 
-  <!-- ─── 06 PUBLICATION ─── -->
+  <!-- ─── 07 ROBOTICS ─── -->
+  <section id="robotics">
+    <div class="big-section-num fade-in">07</div>
+    <div class="section-label-light">Embodied applications</div>
+    <h2 class="section-title-light fade-in">Multimodal Turing Test &amp; humanoid robotics</h2>
+    <p class="section-body-light fade-in" style="transition-delay:.1s">
+      The Retro Turing framework extends naturally to embodied systems. The Multimodal Turing
+      Test, formalised by Staffordshire University (2020), evaluates humanoid robots across
+      appearance, movement, expression, social cognition and behavioural variability &mdash;
+      precisely the multi-scale dimensions our judge architecture decomposes.
+    </p>
+
+    <div class="robotics-grid fade-in" style="transition-delay:.15s">
+      <div class="robotics-card">
+        <div class="robotics-tag">Embodied AI &middot; Staffordshire 2020</div>
+        <div class="robotics-title">Multimodal Turing Test for realistic humanoids</div>
+        <div class="robotics-body">
+          Evaluates humanoid robots (Sophia, Ameca, Geminoid family) integrating embodied
+          AI: physical appearance, motor kinematics, facial expression, conversational
+          coherence, and the variability that distinguishes living motion from scripted
+          actuation. Directly compatible with our 7-module judge architecture.
+        </div>
+        <div class="robotics-meta">// Coghlan, Leins, Marchal et al. &middot; ResearchGate</div>
+      </div>
+
+      <div class="robotics-card">
+        <div class="robotics-tag">Clinical applications</div>
+        <div class="robotics-title">Diagnostic Retro Turing</div>
+        <div class="robotics-body">
+          The judge architecture inverted: AI as evaluator of humans for clinical screening.
+          Mild cognitive impairment, ASD, prodromal psychosis, burnout. The same modules that
+          detect "non-human" patterns in machines detect <em>atypical</em> patterns in humans
+          &mdash; potentially earlier than human clinicians.
+        </div>
+        <div class="robotics-meta">// Frontiers in Psychology 2025 &middot; Nature Sci Reports 2025</div>
+      </div>
+
+      <div class="robotics-card">
+        <div class="robotics-tag">Forensic applications</div>
+        <div class="robotics-title">Narrative consistency analysis</div>
+        <div class="robotics-body">
+          LLMs as forensic assistants (not judges) for analysing narrative consistency in
+          witness and victim testimony. The same temporal-coherence metrics that distinguish
+          human from machine narratives can flag internal inconsistencies in human testimony
+          for further human evaluation.
+        </div>
+        <div class="robotics-meta">// Prototype application &middot; Prospective</div>
+      </div>
+
+      <div class="robotics-card">
+        <div class="robotics-tag">Therapeutic robotics</div>
+        <div class="robotics-title">Pepper, AMIGA &amp; assistive humanoids</div>
+        <div class="robotics-body">
+          Clinical trials on humanoid robots in MCI assessment, ASD theory-of-mind training,
+          and depression intervention show convergent evidence: the humanoid is accepted as
+          an interlocutor when its temporal contingency falls within human bands. The
+          Retro Turing modules quantify exactly this contingency.
+        </div>
+        <div class="robotics-meta">// Science Robotics 2025 &middot; Frontiers in Psychiatry 2025</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tech-divider-light"></div>
+
+  <!-- ─── 08 WEEKLY REPORTS ─── -->
+  <section id="weekly">
+    <div class="big-section-num fade-in">08</div>
+    <div class="section-label-light">Ongoing &middot; weekly</div>
+    <h2 class="section-title-light fade-in">Retro Turing Weekly Report</h2>
+    <p class="section-body-light fade-in" style="transition-delay:.1s">
+      Each week we publish a short report on developments at the human&ndash;machine interface:
+      new evidence, relevant publications, technical milestones, and notes on the
+      project&rsquo;s own progress.
+    </p>
+
+    <div class="weekly-wrap fade-in" style="transition-delay:.15s">
+      <aside class="weekly-side">
+        <div class="weekly-side-title">Archive</div>
+        <ul class="weekly-list">
+          <li><span>27 April 2026</span><span class="badge">LATEST</span></li>
+          <li><span>20 April 2026</span></li>
+          <li><span>13 April 2026</span></li>
+          <li><span>06 April 2026</span></li>
+          <li style="opacity:.5;font-style:italic"><span>Earlier reports</span><span>&hellip;</span></li>
+        </ul>
+      </aside>
+
+      <article class="weekly-main">
+        <div class="weekly-date">Issue &middot; 27 April 2026</div>
+        <div class="weekly-title">The Retro Turing Project &mdash; 27 April</div>
+        <div class="weekly-body">
+          <p>This week we consolidate the project&rsquo;s public-facing materials and open the
+          weekly report series. The web is now live at nexus6jsg.com with full instrument
+          documentation, theoretical framework, and the five falsifiable hypotheses.</p>
+
+          <p><strong>Notable publications this week.</strong> NEJM AI continues its 2026 series
+          on generative chatbots in mental health, with new RCT evidence on alliance
+          formation. Brown University&rsquo;s ethics group expands the catalogue of systematic
+          violations in mental-health AI to seventeen categories.</p>
+
+          <p><strong>Project milestones.</strong> Instrument document v1.0 completed across
+          three parts (stimuli, capture, modular). Two-layer judge architecture specified.
+          Pilot infrastructure under design.</p>
+
+          <p><strong>Looking ahead.</strong> Next week: detailed protocol for C3
+          (semi-structured multimodal condition) and first pilot trials of M1 (facial
+          kinematics) with OpenFace 2.0 baseline.</p>
+        </div>
+
+        <div class="weekly-subscribe">
+          To receive the weekly report by email, write to
+          <a href="mailto:info@neuro-leader.net?subject=Weekly%20Report%20Subscription">info@neuro-leader.net</a>
+          with the subject "Weekly Report Subscription".
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="tech-divider-light"></div>
+
+  <!-- ─── 09 PUBLICATION ─── -->
   <section id="publicacion">
-    <div class="big-section-num fade-in">06</div>
+    <div class="big-section-num fade-in">09</div>
     <div class="section-label-light">Dissemination</div>
     <h2 class="section-title-light fade-in">Publication strategy</h2>
     <p class="section-body-light fade-in" style="transition-delay:.1s">Three papers in cascade. The first establishes conceptual territory before empirical data.</p>
@@ -1193,24 +1675,96 @@ footer {
         <div class="pub-tag">Theoretical paper</div>
         <div class="pub-title">Construct, framework and derived predictions</div>
         <div class="pub-body">Establishes the Retro Turing as a test of generative models of humanity in artificial systems. Can be published before empirical data.</div>
-        <div class="pub-venue">// Behavioral and Brain Sciences · Trends in Cognitive Sciences</div>
+        <div class="pub-venue">// Behavioral and Brain Sciences &middot; Trends in Cognitive Sciences</div>
       </div>
       <div class="pub-card">
         <span class="pub-num">2</span>
         <div class="pub-tag">Empirical baseline</div>
-        <div class="pub-title">C1–C3 results with the general-purpose judge</div>
+        <div class="pub-title">C1&ndash;C3 results with the general-purpose judge</div>
         <div class="pub-body">Baseline conditions, three prompt versions, forensic channels ON/OFF comparison, modular ablation analysis.</div>
-        <div class="pub-venue">// Cognitive Science · Journal of Artificial Intelligence Research</div>
+        <div class="pub-venue">// Cognitive Science &middot; Journal of Artificial Intelligence Research</div>
       </div>
       <div class="pub-card">
         <span class="pub-num">3</span>
         <div class="pub-tag">Adversarial extension</div>
         <div class="pub-title">Strategic intentionality and meta-representation</div>
-        <div class="pub-body">C4–C6: can an artificial system adopt the intentional stance towards another system and exploit its blind spots?</div>
-        <div class="pub-venue">// Minds and Machines · Philosophical Psychology</div>
+        <div class="pub-body">C4&ndash;C6: can an artificial system adopt the intentional stance towards another system and exploit its blind spots?</div>
+        <div class="pub-venue">// Minds and Machines &middot; Philosophical Psychology</div>
       </div>
     </div>
   </section>
+
+  <div class="tech-divider-light"></div>
+
+  <!-- ─── 10 REFERENCES ─── -->
+  <section id="references">
+    <div class="big-section-num fade-in">10</div>
+    <div class="section-label-light">Bibliography</div>
+    <h2 class="section-title-light fade-in">References</h2>
+    <p class="section-body-light fade-in" style="transition-delay:.1s">
+      Sources organised by domain. Empirical works from 2023&ndash;2026 in bold dates.
+    </p>
+
+    <div class="refs-list fade-in" style="transition-delay:.15s">
+
+      <div class="refs-block">
+        <div class="refs-block-title">I &middot; Turing test &amp; reverse-Turing lineage</div>
+        <div class="ref-item"><span class="ref-year">1950</span>Turing, A. M. Computing Machinery and Intelligence. <em>Mind</em>, 59(236), 433&ndash;460.</div>
+        <div class="ref-item"><span class="ref-year">2003</span>von Ahn, L., Blum, M., Hopper, N. J., &amp; Langford, J. CAPTCHA: Using hard AI problems for security. <em>EUROCRYPT</em>.</div>
+        <div class="ref-item"><span class="ref-year">2016</span>Danaher, J. Reverse Turing tests and the paradoxical humanisation problem. <em>Philosophical Disquisitions</em>.</div>
+        <div class="ref-item"><span class="ref-year">2023</span>Sejnowski, T. J. Large Language Models and the Reverse Turing Test. <em>Neural Computation</em>, 35(3), 309&ndash;342. <a href="https://direct.mit.edu/neco/article/35/3/309/114731">Link</a></div>
+        <div class="ref-item"><span class="ref-year">2025</span>Jones, C. R., &amp; Bergen, B. K. Large Language Models pass the Turing Test. <em>arXiv preprint</em> 2503.23674.</div>
+      </div>
+
+      <div class="refs-block">
+        <div class="refs-block-title">II &middot; Affective science &amp; expression</div>
+        <div class="ref-item"><span class="ref-year">1989</span>Grammer, K., &amp; Eibl-Eibesfeldt, I. The ritualization of laughter. <em>Natural Selection of Cooperative Behavior</em>.</div>
+        <div class="ref-item"><span class="ref-year">1992</span>McNeill, D. <em>Hand and Mind: What Gestures Reveal about Thought</em>. University of Chicago Press.</div>
+        <div class="ref-item"><span class="ref-year">1994</span>Fridlund, A. J. <em>Human Facial Expression: An Evolutionary View</em>. Academic Press.</div>
+        <div class="ref-item"><span class="ref-year">1995</span>Fern&aacute;ndez-Dols, J. M., &amp; Ruiz-Belda, M. A. Are smiles a sign of happiness? Gold medal winners at the Olympic Games. <em>Journal of Personality and Social Psychology</em>, 69(6), 1113&ndash;1119.</div>
+        <div class="ref-item"><span class="ref-year">2003</span>Russell, J. A. Core affect and the psychological construction of emotion. <em>Psychological Review</em>, 110(1), 145&ndash;172.</div>
+        <div class="ref-item"><span class="ref-year">2012</span>Lindquist, K. A., Wager, T. D., et al. The brain basis of emotion. <em>Behavioral and Brain Sciences</em>, 35(3), 121&ndash;143.</div>
+        <div class="ref-item"><span class="ref-year">2016</span>Crivelli, C., Russell, J. A., et al. Reading emotions from faces in two indigenous societies. <em>Journal of Experimental Psychology: General</em>, 145(7), 830&ndash;843.</div>
+      </div>
+
+      <div class="refs-block">
+        <div class="refs-block-title">III &middot; Speech, dialogue &amp; conversational organisation</div>
+        <div class="ref-item"><span class="ref-year">1968</span>Schegloff, E. A. Sequencing in conversational openings. <em>American Anthropologist</em>, 70(6).</div>
+        <div class="ref-item"><span class="ref-year">1989</span>Levelt, W. J. M. <em>Speaking: From Intention to Articulation</em>. MIT Press.</div>
+        <div class="ref-item"><span class="ref-year">1994</span>Shriberg, E. E. Preliminaries to a Theory of Speech Disfluencies. PhD dissertation, UC Berkeley.</div>
+        <div class="ref-item"><span class="ref-year">1998</span>Yehia, H., Rubin, P., &amp; Vatikiotis-Bateson, E. Quantitative association of vocal-tract and facial behavior. <em>Speech Communication</em>, 26(1&ndash;2).</div>
+        <div class="ref-item"><span class="ref-year">2004</span>Pickering, M. J., &amp; Garrod, S. Toward a mechanistic psychology of dialogue. <em>Behavioral and Brain Sciences</em>, 27(2), 169&ndash;226.</div>
+      </div>
+
+      <div class="refs-block">
+        <div class="refs-block-title">IV &middot; Embodied AI &amp; humanoid robotics</div>
+        <div class="ref-item"><span class="ref-year">2019</span>Damiano, L., &amp; Dumouchel, P. Anthropomorphism in human-robot interaction. <em>The Conversation</em>.</div>
+        <div class="ref-item"><span class="ref-year">2020</span>Coghlan, S., et al. The Multimodal Turing Test for Realistic Humanoid Robots with Embodied AI. <em>Staffordshire University</em>. <a href="https://www.researchgate.net/publication/343691350">ResearchGate</a></div>
+        <div class="ref-item"><span class="ref-year">2025</span>Humanoid robots for MCI assessment. <em>Frontiers in Psychology</em>, 16. <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1579626/full">Link</a></div>
+        <div class="ref-item"><span class="ref-year">2025</span>Theory of mind in autism through humanoid robot (RCT). <em>Nature Scientific Reports</em>. <a href="https://www.nature.com/articles/s41598-025-12253-7">Link</a></div>
+        <div class="ref-item"><span class="ref-year">2025</span>Efficacy of robot-assisted therapy for ASD. <em>Science Robotics</em>. <a href="https://www.science.org/doi/10.1126/scirobotics.adl2266">Link</a></div>
+      </div>
+
+      <div class="refs-block">
+        <div class="refs-block-title">V &middot; Clinical &amp; ethical applications of conversational AI</div>
+        <div class="ref-item"><span class="ref-year">2024</span>VIVE Blog. Reverse Turing Test Identifies Human Among AI. <em>HTC VIVE</em>. <a href="https://blog.vive.com/us/reverse-turing-test-identifies-human-among-ai/">Link</a></div>
+        <div class="ref-item"><span class="ref-year">2025</span>AI chatbots systematically violate mental health ethics. <em>Brown University News</em>. <a href="https://www.brown.edu/news/2025-10-21/ai-mental-health-ethics">Link</a></div>
+        <div class="ref-item"><span class="ref-year">2025</span>AMIGA: socially assistive robot for depression. <em>Frontiers in Psychiatry</em>.</div>
+        <div class="ref-item"><span class="ref-year">2026</span>Randomized Trial of a Generative AI Chatbot for Mental Health. <em>NEJM AI</em>. <a href="https://ai.nejm.org/doi/full/10.1056/AIoa2400802">Link</a></div>
+      </div>
+
+      <div class="refs-block">
+        <div class="refs-block-title">VI &middot; Affective Turing &amp; AI ethics</div>
+        <div class="ref-item"><span class="ref-year">2022</span>Howell, S. Empathy Turing Test for care bots. <em>PhilArchive</em>. <a href="https://philarchive.org/archive/HOWAEI-2">Link</a></div>
+        <div class="ref-item"><span class="ref-year">2023</span>Bovenkerk, B., et al. The Affective Turing Test. <em>AI &amp; Society</em>.</div>
+        <div class="ref-item"><span class="ref-year">2024</span>IA Emocional en el reverso del Test de Turing. <em>Revista Iberoamericana de Bio&eacute;tica</em>. <a href="https://revistas.comillas.edu/bioetica-revista-iberoamericana/en/article/view/21351">Link</a></div>
+        <div class="ref-item"><span class="ref-year">2025</span>A neural approach to the Turing Test: role of emotions. <em>Neural Networks</em>. <a href="https://www.sciencedirect.com/science/article/pii/S0893608025002412">Link</a></div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /light-zone -->
 
 </div><!-- /light-zone -->
 
